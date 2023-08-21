@@ -1,0 +1,30 @@
+{% extends "movies/layout.html" %}
+
+{% block title %}
+    {{person.name}}
+{% endblock %}
+
+{% block body %}
+    <div id="person_page">
+        <div class="container pt-5 text-center">
+            <h2>{{person.name}}</h2>
+            <hr>
+            <img src="{{person.image}}" alt="Image" class="rounded" height="600">
+            <hr>
+            <a type="button" class="btn btn-warning px-5" href="https://www.imdb.com{{person.url}}">IMDB</a>
+            <hr>
+            <div class="d-flex justify-content-center">
+                {% for job in person.jobTitle %}
+                <h6 class="ml-2"  style="color:#f5c518;">{{job}} </h6>
+                {% endfor %}
+            </div>
+            <p>Birth Date : {{person.birthDate}}</p>
+            <hr>
+            <div class="p-2 mb-2 border border-dark rounded">
+                <p>{{person.description}}</p>
+            </div>
+            <hr>
+            <!-- {{person.id}} -->
+        </div>
+    </div>
+{% endblock %}

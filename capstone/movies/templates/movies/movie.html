@@ -1,0 +1,95 @@
+{% extends "movies/layout.html" %}
+
+{% block title %}
+    {{movie.name}}
+{% endblock %}
+
+{% block body %}
+    <div id="movie_page">
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col-12 col-lg-4 text-center" id="movie_pic_div">
+                    <div>
+                        <img src="{{movie.poster}}" alt="Poster" class="rounded" width="330" height="505">
+                        <div class="p-2 d-flex flex-column mt-4">
+                            <div class=" mb-3 mt-auto d-flex flex-column" id="Listbtn">
+                                {% if movie.listed == True %}
+                                    <button type="button" class="btn btn-dark" onclick="unList('{{movie.id}}')"><i  class='bx bx-minus'></i> Watchlist </button>
+                                {% else %}
+                                    <button type="button" class="btn btn-dark" onclick="enList('{{movie.id}}')"><i  class='bx bx-plus'></i> Watchlist </button>
+                                {% endif %}
+                            </div>
+                            <a type="button" class="btn btn-warning mb-1" href="{{movie.url}}">IMDB</a>
+                            <!-- {{movie.id}} -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8" id="movie_content">
+                    <h2>{{movie.name}}</h2>
+                    <hr>
+                    <h4 class="ml-2"><i class='bx bxs-star bx-spin-hover' style="color: #f5c518;"></i>{{movie.rating.ratingValue}}</h4>
+                    <div class="col ml-3 mb-4">
+                        <h5>Reviews : {{movie.rating.ratingCount}}</h5>
+                        <h5>Best : {{movie.rating.bestRating}}</h5>
+                        <h5>Worst :{{movie.rating.worstRating}}</h5>
+                    </div>
+                    <h3 style="color:#f5c518;">Overview</h3>
+                    <hr style="border-top: 1px solid white;" class="mt-1 mb-4">
+                    <div class="mx-3">
+                        <div class="p-2 mb-2 border border-dark rounded">
+                            <p>{{movie.description}}</p>
+                        </div>
+                        <div class="col mt-4">
+                            <h5 class="ml-3">Published : </h5>
+                            <h6 class="ml-5">{{movie.datePublished}}</h6>
+                            <h5 class="ml-3">content Rating : </h5>
+                            <h6 class="ml-5">{{movie.contentRating}}</h6>
+                            <h5 class="ml-3">Genre : </h5>
+                            <h6 class="ml-5">
+                                {% for gen in  movie.genre%}
+                                    {{gen}},
+                                {% endfor %}
+                                
+                            </h6>
+                            <h5 class="ml-3">Directors : </h5>
+                            <div>
+                                {% for dir in  movie.director%}
+                                    <a href="{% url 'movies:people' id=dir.url %}">
+                                        <h6 class="ml-5"  style="color:#f5c518;">{{dir.name}} </h6>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <h5 class="ml-3">Creator : </h5>
+                            <div>
+                                {% for cre in  movie.creator%}
+                                <a href="{% url 'movies:people' id=cre.url %}">
+                                    <h6 class="ml-5"  style="color:#f5c518;">{{cre.name}} </h6>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            <h5 class="ml-3">Stars : </h5>
+                            <div>
+                                {% for act in  movie.actor%}
+                                <a href="{% url 'movies:people' id=act.url %}">
+                                    <h6 class="ml-5"  style="color:#f5c518;">{{act.name}} </h6>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            <hr>
+                            <h5 class="ml-3">Keywords : </h5>
+                            <h6 class="ml-5">{{movie.keywords}}</h6>
+                        </div>
+                        <div class="pl-2 pr-2 mt-5">
+                            <h6>User review:</h6>
+                            <hr style="border-top: 1px solid white;" class="mt-1 mb-4">
+                            <p><strong class="mb-2">{{movie.review.heading}}</strong></p>
+                            <p class="ml-2 mb-1"><i class='bx bxs-star bx-spin-hover' style="color: #f5c518;"></i>{{movie.review.reviewRating.ratingValue}}</p>
+                            <p class="font-weight-light ml-2" style="color:#c9c9c9;">{{movie.review.dateCreated}} by {{movie.review.author}}</p>
+                            <p>{{movie.review.reviewBody}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

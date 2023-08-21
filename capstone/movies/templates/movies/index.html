@@ -1,0 +1,132 @@
+{% extends "movies/layout.html" %}
+
+{% block body %}
+    <div class="index-welcome-div">
+        <div class="container pt-5">
+            <h3 class="mb-4 ml-2">Featured Today</h3>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <a href="{% url 'movies:movie' id=featured.id %}"class="rounded">
+                        <img src="{{featured.poster}}" alt="Featured" class="" width="270" height="414">
+                    </a>
+                </div>
+                <div class="col-12 col-md-6 col-lg-9 pl-4">
+                    <h2>{{featured.name}}</h2>
+                    <h5 class="ml-2"><i class='bx bxs-star bx-spin-hover' style="color: #f5c518;"></i>{{featured.rating.ratingValue}}</h5>
+                    <div class="col">
+                        <h5 class="ml-2">Published : {{featured.datePublished}}</h5>
+                        <h5 class="ml-3">content Rating : {{featured.contentRating}}</h5>
+                        <h5 class="ml-4">Genre : 
+                            {% for gen in  featured.genre%}
+                                {{gen}}
+                            {% endfor %}
+                        </h5>
+                        <a href="{{featured.url}}"class="btn btn-warning mr-2 ml-auto float-right">IMDB</a>
+                    </div>
+                    <h4 class="mt-3">Overview:</h4>
+                    <hr style="border-top: 1px solid white;" class="mt-1">
+                    <div class="px-4">
+                        {{featured.description}}
+                    </div>
+                    <h4 class="mt-2">Actors</h4>
+                    <div class="d-flex">
+                        {% for act in  featured.actor%}
+                            <a href="{% url 'movies:people' id=act.url %}" class="badge badge-dark ml-2">{{act.name}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="index-content">
+
+        <h3 style="color:#f5c518;">What to watch</h3>
+        <h3>Popular</h3>
+        <hr>
+        <ul class="nav nav-pills justify-content-center mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-movies-tab" data-toggle="pill" href="#pills-movies" role="tab" aria-controls="pills-home" aria-selected="true">Movies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  id="pills-tv-tab" data-toggle="pill" href="#pills-tv" role="tab" aria-controls="pills-tv" aria-selected="false">TV</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  id="pills-upcoming-tab" data-toggle="pill" href="#pills-upcoming" role="tab" aria-controls="pills-upcoming" aria-selected="false">Upcoming</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active  mb-5" id="pills-movies" role="tabpanel" aria-labelledby="pills-movies-tab">
+                <div class="row">
+                    {% for movie in movies %}
+                        <div class="col p-3">
+                            <div class="border border-warning rounded" style="width: 156px; height:min-content;">
+                                <a href="{% url 'movies:movie' id=movie.id %}"  class=" mb-1">
+                                    <img src="{{movie.poster}}" alt="Poster" style="width:100%; height: 234px;">
+                                </a>
+                                <div class="p-2 d-flex flex-column">
+                                    <h6 class="">{{movie.year}}</h6>
+                                    <h6 class="">{{movie.name}}</h6>
+                                    <a type="button" class="btn btn-warning mb-1" href="{{movie.url}}">IMDB</a>
+                                    <!-- {{movie.id}} -->
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade  mb-5" id="pills-tv" role="tabpanel" aria-labelledby="pills-tv-tab">
+                <div class="row">
+                    {% for show in tv_shows %}
+                        <div class="col p-3">
+                            <div class="border border-warning rounded" style="width: 156px; height:min-content;">
+                                <a href="{% url 'movies:movie' id=show.id %}"  class=" mb-1">
+                                    <img src="{{show.poster}}" alt="Poster" style="width:100%; height: 234px;">
+                                </a>
+                                <div class="p-2 d-flex flex-column">
+                                    <h6 class="">{{show.year}}</h6>
+                                    <h6 class="">{{show.name}}</h6>
+                                    <a type="button" class="btn btn-warning mb-1" href="{{show.url}}">IMDB</a>
+                                    <!-- {{show.id}} -->
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade mb-5" id="pills-upcoming" role="tabpanel" aria-labelledby="pills-upcoming-tab">
+                <table id="upcomingTable" class="table table-striped table-responsive-md">
+                    <thead>
+                        <tr style="background-color: #032648;">
+                            <th style="width:55%; color: white;" >Name</th>
+                            <th style="width:25%; color: white;" >Release Date</th>
+                            <th style="width:10%; color: white;" >View</th>
+                            <th style="width:10%; color: white;" >IMDB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movie in Upcoming %}
+                            <tr>
+                                <td>{{movie.name}}</td>
+                                <td>{{movie.release_data}}</td>
+                                <td>
+                                    <a href="{% url 'movies:movie' id=movie.id %}"class="btn btn-dark ml-auto ml-1 float-right">view</a>
+                                </td>
+                                <td>
+                                    <a href="{{movie.url}}"class="btn btn-warning mr-1 ml-auto float-right">IMDB</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr  style="background-color: #032648;">
+                            <th>Name</th>
+                            <th>Release Date</th>
+                            <th>View</th>
+                            <th>IMDB</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

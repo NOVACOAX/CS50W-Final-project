@@ -1,0 +1,16 @@
+{% extends "movies/layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+    <h1>Sign Up</h1>
+    <form action="{% url 'movies:register' %}" method="post" class="site-form">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="signup">
+    </form>
+    Already have an account? <a href="{% url 'movies:login' %}">Log In here.</a>
+
+{% endblock %}
